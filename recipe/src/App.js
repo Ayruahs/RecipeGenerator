@@ -12,10 +12,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="main-container">
+        <div className="ingredients-container">
           <div className="ingredients-select">
-            Ingredients Card
-            <ExpansionPanel>
+            <ExpansionPanel style={{backgroundColor:"#DFDCE3"}} >
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 Expansion Panel 1
               </ExpansionPanelSummary>
@@ -25,8 +24,21 @@ class App extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </div>
-          <div className="recipe-display">Recipe Card</div>
         
+        </div>
+
+        <div className="recipe-container">
+          <div className="recipe-display">
+            <ExpansionPanel style={{backgroundColor:"#DFDCE3"}} >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                Expansion Panel 1
+              </ExpansionPanelSummary>
+              
+              <ExpansionPanelDetails>
+                sdfsf
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </div>
         </div>
       </div>
       

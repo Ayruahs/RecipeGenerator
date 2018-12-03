@@ -1,11 +1,17 @@
 .App{
   background-color: #4ABDAC;
   height: 100vh;
-}
 
-.main-container{
   display: flex;
   flex-direction: row;
+}
+
+.ingredients-container{
+
+}
+
+.recipe-container{
+  
 }
 
 .ingredients-select{
