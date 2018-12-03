@@ -1,32 +1,29 @@
-.App {
-  text-align: center;
+.App{
+  background-color: #4ABDAC;
+  height: 100vh;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.main-container{
+  display: flex;
+  flex-direction: row;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.ingredients-select{
+  width: 30vw;
+  margin-left: 20px;
+  margin-top: 20px;
+  background-color: #DFDCE3;
+  color: white;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.recipe-display{
+  width: 70vw;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+  background-color: #DFDCE3;
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
