@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 .App{
-  background-color: #4ABDAC;
+  background-color: #EFEFEF;
   height: 100vh;
 
   display: flex;
@@ -16,20 +18,35 @@
 
 .ingredients-select{
   width: 30vw;
+  height: 95vh;
   margin-left: 20px;
   margin-top: 20px;
-  background-color: #DFDCE3;
-  color: white;
+  background-color: white;
+  color: #FF3B3f;
 
   display: flex;
   flex-direction: column;
+  align-self: center;
+  /* align-items: center; */
+  align-content: center;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .recipe-display{
-  width: 70vw;
+  width: 65vw;
+  height: 95vh;
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 20px;
-  background-color: #DFDCE3;
-  color: white;
+  background-color: #CAEBF2;
+  color: #A9A9A9;
+
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  /* align-items: center; */
+  align-content: center;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
 }
