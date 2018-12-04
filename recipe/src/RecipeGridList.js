@@ -15,11 +15,12 @@ const styles = theme => ({
       flexWrap: 'wrap',
       justifyContent: 'space-around',
       overflow: 'hidden',
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: '#EFEFEF',
+      align: 'center'
     },
     gridList: {
-      width: 500,
-      height: 450,
+      width: '40vw',
+      height: '95vh',
     },
     icon: {
       color: 'rgba(255, 255, 255, 0.54)',
@@ -36,7 +37,7 @@ class RecipeGridList extends Component {
        
         return (
         <div className={classes.root}>
-            <GridList cellHeight={180} className={classes.gridList}>
+            <GridList cellHeight={200} className={classes.gridList}>
             <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                 <ListSubheader component="div">Recipes you can make</ListSubheader>
             </GridListTile>

@@ -3,16 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import RecipeGridList from './RecipeGridList';
 
-const styles = theme => ({
-    paper: {
-        // position: 'absolute',
-        width: theme.spacing.unit * 50,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4,
-    },
-});
-
 class RecipeModal extends Component{
     state = {
         open: true,
@@ -30,8 +20,8 @@ class RecipeModal extends Component{
 
     render() {
         return (
-          <div>
-            <Modal
+          <div style={{alignContent:"center"}}>
+            <Modal style={{width:"50%", marginTop:'20px', marginLeft:'25%'}}
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
               open={this.state.open}
@@ -46,4 +36,4 @@ class RecipeModal extends Component{
       }
 }
 
-export default withStyles(styles)(RecipeModal);
+export default RecipeModal;
