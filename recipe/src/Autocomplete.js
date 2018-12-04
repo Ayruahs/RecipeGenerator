@@ -308,6 +308,10 @@ class DownshiftMultiple extends Component {
       });
     };
 
+    setStateToOff = () => {
+        this.setState({ open: false });
+    };
+
     getRecipes = () => {
         let {selectedItem} = this.state;
         console.log(selectedItem);
@@ -411,7 +415,7 @@ class DownshiftMultiple extends Component {
             Search Recipes
         </Button>
 
-        {this.state.open && <RecipeModal tileData={this.state.APIRecipes} /> }
+        {this.state.open && <RecipeModal closeHandler={this.setStateToOff} tileData={this.state.APIRecipes} /> }
         </div>
         
       );

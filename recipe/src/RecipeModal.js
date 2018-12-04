@@ -25,6 +25,7 @@ class RecipeModal extends Component{
 
     handleClose = () => {
         this.setState({ open: false });
+        this.props.closeHandler();
     };
 
     render() {
