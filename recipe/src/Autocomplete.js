@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import APIKeys from './APIKeys';
+import RecipeGridList from './RecipeGridList';
+import RecipeModal from './RecipeModal';
 
 const styles = theme => ({
     root: {
@@ -268,6 +270,8 @@ class DownshiftMultiple extends Component {
     state = {
       inputValue: '',
       selectedItem: [],
+      open: false,
+      APIRecipes: []
     };
   
     handleKeyDown = event => {
@@ -326,7 +330,40 @@ class DownshiftMultiple extends Component {
                     console.log("number of recipes: " + jsonObj.count);    
                 }else{
                     console.log("number of recipes: " + jsonObj.count);
-                    console.log("The recipes are: " + jsonObj.hits);
+                    // console.log("The recipes are: " + JSON.stringify(jsonObj.hits));
+                    var arr = jsonObj.hits;
+                    var arr2 = [];
+                    // console.log("LENGTH IS: " + arr.length);
+                    for(var i=0; i<arr.length; i++){
+                        // var temp2 = this.state.APIRecipes;
+                        // console.log("RECIPE IS: " + JSON.stringify(temp.recipe));
+                        // console.log("\n\n\n\n");
+                        // arr2.push(JSON.stringify(arr[i].recipe));
+                        arr2.push(arr[i].recipe); 
+                        // this.setState({
+                        //     APIRecipes: temp2
+                        // });
+                    }
+                    // console.log("RECESLEN: " + this.state.APIRecipes.length);
+                    // console.log("RECES: " + this.state.APIRecipes);
+                    console.log("1: " + typeof this.state.APIRecipes);
+                    this.setState({
+                        open: true,
+                        APIRecipes: arr2
+                    })
+
+                    // for(var rec in arr.recipe){
+                    //     console.log("ss: " + rec);
+                    //     var temp = this.state.APIRecipes
+                    //     console.log("SDSDSD: " + rec.recipe);
+                    //     temp.push(rec.recipe);
+                    //     this.setState({
+                    //         open: true,
+                    //         APIRecipes: temp
+                    //     });
+                    // }
+                    
+                    
                 }
 			}).catch( e => {
 				console.log(e);
@@ -394,7 +431,10 @@ class DownshiftMultiple extends Component {
         <Button variant="contained" color="primary" onClick={this.getRecipes}>
             Search Recipes
         </Button>
+
+        {this.state.open && <RecipeModal tileData={this.state.APIRecipes} /> }
         </div>
+        
       );
     }
 }
