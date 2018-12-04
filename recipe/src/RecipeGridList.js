@@ -30,7 +30,12 @@ const styles = theme => ({
 class RecipeGridList extends Component {
     state = {
         tileData: []
-    }
+    };
+
+    openLink(url){
+        var win = window.open(url, '_blank');
+        win.focus();
+    };
 
     render(){
         const { classes } = this.props;
@@ -47,9 +52,9 @@ class RecipeGridList extends Component {
                 <img src={tile.image} alt={tile.label} />
                 <GridListTileBar
                     title={tile.label}
-                    // subtitle={<span>by: {tile.author}</span>}
+                    subtitle={<span>{tile.calories} Calories</span>}
                     actionIcon={
-                    <IconButton className={classes.icon}>
+                    <IconButton className={classes.icon} onClick={() => this.openLink(tile.url)}>
                         <InfoIcon />
                     </IconButton>
                     }

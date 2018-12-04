@@ -411,7 +411,7 @@ class DownshiftMultiple extends Component {
           )}
         </Downshift>
 
-        <Button style={{marginTop:"20%"}} variant="contained" raised={true} color="secondary" onClick={this.getRecipes}>
+        <Button style={{marginTop:"20%"}} variant="contained" color="secondary" onClick={this.getRecipes}>
             Search Recipes
         </Button>
 
