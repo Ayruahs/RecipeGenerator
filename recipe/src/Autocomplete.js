@@ -5,10 +5,11 @@ import deburr from 'lodash/deburr';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import keycode from 'keycode';
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
+import APIKeys from './APIKeys';
 
 const styles = theme => ({
     root: {
@@ -303,9 +304,34 @@ class DownshiftMultiple extends Component {
       });
     };
 
-    printIng = () => {
+    getRecipes = () => {
         let {selectedItem} = this.state;
         console.log(selectedItem);
+        console.log(APIKeys.APP_ID);
+        console.log(APIKeys.APP_KEY);
+
+        if(selectedItem.length === 0){
+            console.log("Please select ingredients");
+        }else{
+            let INGREDIENT_STRING = selectedItem.join(" ");
+            let API_URL = "https://api.edamam.com/search?q=\"" + INGREDIENT_STRING + "\"&app_id=" + APIKeys.APP_ID + 
+                      "&" + "app_key=" + APIKeys.APP_KEY + "&from=0&to=10";
+        
+            console.log(API_URL);
+
+            return fetch(API_URL).then( response => {
+				return response.json();
+			}).then( jsonObj => {
+                if(jsonObj.count === 0){
+                    console.log("number of recipes: " + jsonObj.count);    
+                }else{
+                    console.log("number of recipes: " + jsonObj.count);
+                    console.log("The recipes are: " + jsonObj.hits);
+                }
+			}).catch( e => {
+				console.log(e);
+			})
+        }
     }
   
     render() {
@@ -365,7 +391,7 @@ class DownshiftMultiple extends Component {
           )}
         </Downshift>
 
-        <Button variant="contained" color="primary" onClick={this.printIng}>
+        <Button variant="contained" color="primary" onClick={this.getRecipes}>
             Search Recipes
         </Button>
         </div>
