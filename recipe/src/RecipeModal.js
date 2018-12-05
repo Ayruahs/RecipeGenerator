@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import RecipeGridList from './RecipeGridList';
 
