@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import MultipleSearch from './Autocomplete';
+import Login from './Login';
 
 class App extends Component {
 
@@ -25,6 +26,9 @@ class App extends Component {
         <div className="recipe-container">
           <div className="recipe-display">
             Profile Info Here
+
+            <Login/>
+
           </div>
         </div>
       </div>
