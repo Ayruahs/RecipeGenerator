@@ -46,6 +46,7 @@ class RecipeGridList extends Component {
 				"Accept": 'application/json'
 			}
 		};
+        //return fetch("http://167.99.232.195:6547/saveRecipe/" + recipeName + "&" + imageUrl + "&" + recipeUrl, request).then( response => {
         return fetch("/saveRecipe/" + recipeName + "&" + imageUrl + "&" + recipeUrl, request).then( response => {
             return response.json();
             }).then( jsonObj => {

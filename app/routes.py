@@ -50,7 +50,6 @@ def delete_recipe(user, name):
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
     #user = {'username': 'Rishabh'}
     posts = [
@@ -63,7 +62,8 @@ def index():
             'body': 'This Recipe is good!'
         }
     ]
-    return render_template('index.html', title='Home', posts=posts)
+    #return render_template('index.html', title='Home', posts=posts)
+    return jsonify({'message': "Welcome to Recipe Generator!"})
 
 @app.route('/login/<username>&<password>', methods = ['GET', 'POST'])
 def login(username, password):
@@ -75,13 +75,19 @@ def login(username, password):
     user = User.query.filter_by(username=username).first()
     if user is None or not user.check_password(password):
         print("Invalid username or password")
-        return jsonify({"message": "Invalid Username or Password", "HTTPcode": 401})
+        response = jsonify({"message": "Invalid Username or Password", "HTTPcode": 401})
+        #response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
     #    #flash('Login requested for user {}, remember_me={}'.format(
     #    #    form.username.data, form.remember_me.data))
     #        flash('Invalid username or password')
     #        return redirect(url_for('login'))
     login_user(user, remember=False)
-    return jsonify({"message": "Logged In", "HTTPcode": 200})
+    print(current_user.username)
+    response = jsonify({"message": "Logged In", "HTTPcode": 200})
+    print(response)
+    #response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
     #    next_page = request.args.get('next')
     #    if not next_page or url_parse(next_page).netloc != '':
     #        next_page = url_for('index')
@@ -91,6 +97,7 @@ def login(username, password):
 
 @app.route('/logout')
 def logout():
+    print(current_user)
     logout_user()
     #return redirect(url_for('index'))
     return jsonify({"message": "Logged out", "HTTPcode": 200})
@@ -116,12 +123,14 @@ def register(username, password):
 
 @app.route('/getRecipes')
 def getRecipes():
+    print(current_user)
     if current_user.is_authenticated == False:
         return jsonify({"message": "Login First", "HTTPcode": 400})
     return jsonify(get_saved_recipes(current_user.username))
 
 @app.route('/saveRecipe/<recipe_name>&<path:image_url>&<path:recipe_url>')
 def saveRecipe(recipe_name, image_url, recipe_url):
+    print(current_user)
     print("sdsdsdsd:", recipe_name, recipe_url, image_url)
     if current_user.is_authenticated == False:
         return jsonify({"message": "Login First", "HTTPcode": 400})
@@ -129,6 +138,7 @@ def saveRecipe(recipe_name, image_url, recipe_url):
 
 @app.route('/deleteSavedRecipe/<path:recipe_url>')
 def deleteRecipe(recipe_url):
+    print(current_user)
     if current_user.is_authenticated == False:
         return jsonify({"message": "Login First", "HTTPcode": 400})
     return jsonify({"message": delete_recipe(current_user.username, recipe_url), "HTTPcode": 200})

@@ -91,6 +91,7 @@ class LoginPage extends Component{
     onLogin = event => {
         event.preventDefault();
 
+	//return fetch("http://167.99.232.195:6547/login/" + this.state.email + "&" + this.state.password).then( response => {
         return fetch("/login/" + this.state.email + "&" + this.state.password).then( response => {
             return response.json();
             }).then( jsonObj => {
@@ -112,6 +113,7 @@ class LoginPage extends Component{
     onRegister = event => {
         event.preventDefault();
 
+        //return fetch("http://167.99.232.195:6547/register/" + this.state.email + "&" + this.state.password).then( response => {
         return fetch("/register/" + this.state.email + "&" + this.state.password).then( response => {
             return response.json();
             }).then( jsonObj => {
@@ -145,6 +147,7 @@ class LoginPage extends Component{
     signOut = event =>{
         event.preventDefault();
 
+        //return fetch("http://167.99.232.195:6547/logout").then( response => {
         return fetch("/logout").then( response => {
             return response.json();
             }).then( jsonObj => {
@@ -165,6 +168,7 @@ class LoginPage extends Component{
 
     getRecipes = () =>{
         if(this.state.isLoggedIn){
+            //return fetch("http://167.99.232.195:6547/getRecipes").then( response => {
             return fetch("/getRecipes").then( response => {
                 return response.json();
                 }).then( jsonObj => {
@@ -198,6 +202,7 @@ class LoginPage extends Component{
 			}
 		};
         var recipeUrl = recipe.recipe_url;
+        //return fetch("http://167.99.232.195:6547/deleteSavedRecipe/" + recipeUrl, request).then( response => {
         return fetch("/deleteSavedRecipe/" + recipeUrl, request).then( response => {
             return response.json();
             }).then( jsonObj => {

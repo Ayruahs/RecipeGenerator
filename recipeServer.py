@@ -7,4 +7,4 @@ def make_shell_context():
     return {'db': db, 'User': User, 'RecipeTable': RecipeTable}
 
 if __name__ == '__main__':
-    app.run(debug = False, host = '0.0.0.0', port = 6547)
+    app.run(debug = False, host = "0.0.0.0", port = 6547)

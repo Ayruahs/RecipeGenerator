@@ -29,5 +29,5 @@
     "not op_mini all"
   ],
   "devDependencies": {},
-  "proxy": "http://localhost:6547"
+  "proxy": "http://167.99.232.195:6547"
 }
