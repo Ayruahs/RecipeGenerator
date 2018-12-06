@@ -95,7 +95,7 @@ class LoginPage extends Component{
     //   })
     // };
 
-    return fetch("http://192.168.43.151:6547/login/" + this.state.email + "&" + this.state.password).then( response => {
+    return fetch("/login/" + this.state.email + "&" + this.state.password).then( response => {
         console.log(response)
         // return response.json();
     // }).then( jsonObj => {
