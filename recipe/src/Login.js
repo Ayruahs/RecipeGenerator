@@ -78,7 +78,7 @@ class LoginPage extends Component{
     };
 
     onSubmit = event => {
-    //   event.preventDefault();
+      event.preventDefault();
     //   LoginStore.setLoginPageEmail(this.state.email);
     //   LoginStore.setLoginPagePassword(this.state.password);
     //   try{
@@ -90,9 +90,43 @@ class LoginPage extends Component{
     //   }catch(e){
     //     alert(e.message);
     //   }
-      this.setState({
-          isLoggedIn: true
-      })
+    //   this.setState({
+    //       isLoggedIn: true
+    //   })
+    // };
+
+    return fetch("http://192.168.43.151:6547/login/" + this.state.email + "&" + this.state.password).then( response => {
+        console.log(response)
+        // return response.json();
+    // }).then( jsonObj => {
+    //     if(jsonObj.count === 0){
+    //         console.log("number of recipes: " + jsonObj.count);    
+    //     }else{
+    //         console.log("number of recipes: " + jsonObj.count);
+
+    //         var arr = jsonObj.hits;
+    //         var arr2 = [];
+
+    //         for(var i=0; i<arr.length; i++){
+    //             arr2.push(arr[i].recipe); 
+    //         }
+
+    //         console.log("1: " + typeof this.state.APIRecipes);
+    //         this.setState({
+    //             open: true,
+    //             APIRecipes: arr2
+    //         })
+    //     }
+    // }).catch( e => {
+    //     console.log(e);
+    // })
+    });
+    }
+
+    onRegister = () => {
+        this.setState({
+            isLoggedIn: true
+        })
     };
 
     getSaved = () =>{
@@ -117,6 +151,13 @@ class LoginPage extends Component{
                             </div>
 
                             <div class="InputClass">
+
+                                <form action="192.168.43.151:8000/login" method="get">
+                                    Username: <input type="text" name="username" />
+                                    Password: <input type="password" name="password" />
+                                    <input type="Submit" value="Submit" />
+                                </form>
+
                                 <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
                                 style={this.inputStyle} name="email" value={this.state.email} placeholder="email" />
                                 <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
@@ -126,7 +167,7 @@ class LoginPage extends Component{
                                 style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
                                     LOGIN 
                                 </Button>
-                                <Button onClick={this.onSubmit} 
+                                <Button onClick={this.onRegister} 
                                 style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
                                     REGISTER
                                 </Button>
