@@ -152,14 +152,8 @@ class LoginPage extends Component{
 
                             <div class="InputClass">
 
-                                <form action="192.168.43.151:8000/login" method="get">
-                                    Username: <input type="text" name="username" />
-                                    Password: <input type="password" name="password" />
-                                    <input type="Submit" value="Submit" />
-                                </form>
-
                                 <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
-                                style={this.inputStyle} name="email" value={this.state.email} placeholder="email" />
+                                style={this.inputStyle} name="email" value={this.state.email} placeholder="username" />
                                 <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
                                 style={this.inputStyle} name="password" type="password" value={this.state.password} placeholder="password" />
 
