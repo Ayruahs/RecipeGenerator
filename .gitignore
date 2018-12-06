@@ -27,3 +27,6 @@ recipe/src/APIKeys.js
 
 #virtual environment stuff
 venv/*
+
+# pyc
+*.pyc
