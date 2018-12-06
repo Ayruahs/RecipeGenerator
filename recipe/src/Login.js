@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-// import Snackbar from '@material-ui/core/Snackbar';
-// import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -11,6 +11,15 @@ import IconButton from '@material-ui/core/IconButton';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './Login.css';
 import ClearIcon from '@material-ui/icons/Clear';
+import PropTypes from 'prop-types';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import CloseIcon from '@material-ui/icons/Close';
+import { withStyles } from '@material-ui/core/styles';
+import green from '@material-ui/core/colors/green';
+import amber from '@material-ui/core/colors/amber';
+import classNames from 'classnames';
 
 const muiTheme = createMuiTheme({
     overrides: {
@@ -44,6 +53,78 @@ const muiTheme = createMuiTheme({
     }
 });
 
+const variantIcon = {
+    success: CheckCircleIcon,
+    error: ErrorIcon,
+    info: InfoIcon,
+  };
+
+const styles1 = theme => ({
+    success: {
+      backgroundColor: green[600],
+    },
+    error: {
+      backgroundColor: theme.palette.error.dark,
+    },
+    info: {
+      backgroundColor: theme.palette.primary.dark,
+    },
+    warning: {
+      backgroundColor: amber[700],
+    },
+    icon: {
+      fontSize: 20,
+    },
+    iconVariant: {
+      opacity: 0.9,
+      marginRight: theme.spacing.unit,
+    },
+    message: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+  });
+  
+  function MySnackbarContent(props) {
+    const { classes, className, message, onClose, variant, ...other } = props;
+    const Icon = variantIcon[variant];
+  
+    return (
+      <SnackbarContent
+        className={classNames(classes[variant], className)}
+        aria-describedby="client-snackbar"
+        message={
+          <span id="client-snackbar" className={classes.message}>
+            <Icon className={classNames(classes.icon, classes.iconVariant)} />
+            {message}
+          </span>
+        }
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            className={classes.close}
+            onClick={onClose}
+          >
+            <CloseIcon className={classes.icon} />
+          </IconButton>,
+        ]}
+        {...other}
+      />
+    );
+  }
+  
+  MySnackbarContent.propTypes = {
+    classes: PropTypes.object.isRequired,
+    className: PropTypes.string,
+    message: PropTypes.node,
+    onClose: PropTypes.func,
+    variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
+  };
+  
+  const MySnackbarContentWrapper = withStyles(styles1)(MySnackbarContent);
+
 class LoginPage extends Component{
     state={
         email: "",
@@ -51,7 +132,9 @@ class LoginPage extends Component{
         isLoggedIn: false,
         snackbarOpen: false,
         savedRecipes: [],
-        gotRecipes: false
+        gotRecipes: false,
+        snackbarVariant: "",
+        snackbarMessage: ""
     };
 
     inputStyle = {
@@ -95,13 +178,26 @@ class LoginPage extends Component{
             return response.json();
             }).then( jsonObj => {
                 if(jsonObj.HTTPcode === 400){
-                    console.log("Error1: " + jsonObj.message);    
+                    console.log("Error1: " + jsonObj.message);  
+                    this.setState({
+                        snackbarVariant: "error",
+                        snackbarMessage: jsonObj.message,
+                        snackbarOpen: true
+                    });
                 }else if(jsonObj.HTTPcode === 401){
-                    console.log("Error2: " + jsonObj.message);    
+                    console.log("Error2: " + jsonObj.message);  
+                    this.setState({
+                        snackbarVariant: "error",
+                        snackbarMessage: jsonObj.message,
+                        snackbarOpen: true
+                    });  
                 }else{
                     console.log("Message3: " + jsonObj.message);
                     this.setState({
-                        isLoggedIn: true
+                        isLoggedIn: true,
+                        snackbarVariant: "success",
+                        snackbarMessage: jsonObj.message,
+                        snackbarOpen: true
                     });
                 }
             }).catch( e => {
@@ -116,13 +212,26 @@ class LoginPage extends Component{
             return response.json();
             }).then( jsonObj => {
                 if(jsonObj.HTTPcode === 400){
-                    console.log("Error: " + jsonObj.message);    
+                    console.log("Error: " + jsonObj.message);   
+                    this.setState({
+                        snackbarVariant: "error",
+                        snackbarMessage: jsonObj.message,
+                        snackbarOpen: true
+                    }); 
                 }else if(jsonObj.HTTPcode === 401){
-                    console.log("Error: " + jsonObj.message);    
+                    console.log("Error: " + jsonObj.message);   
+                    this.setState({
+                        snackbarVariant: "error",
+                        snackbarMessage: jsonObj.message,
+                        snackbarOpen: true
+                    }); 
                 }else{
                     console.log("Message: " + jsonObj.message);
                     this.setState({
-                        isLoggedIn: true
+                        isLoggedIn: true,
+                        snackbarVariant: "success",
+                        snackbarMessage: jsonObj.message,
+                        snackbarOpen: true
                     });
                 }
             }).catch( e => {
@@ -207,6 +316,8 @@ class LoginPage extends Component{
             })
     };
 
+    
+
     render(){
         if(!this.state.isLoggedIn){
             return(
@@ -233,6 +344,22 @@ class LoginPage extends Component{
                                 style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
                                     REGISTER
                                 </Button>
+
+                                <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        open={this.state.snackbarOpen}
+                        autoHideDuration={4000}
+                        onClose={this.handleSnackbarClose}
+                        >
+                        <MySnackbarContentWrapper
+                            onClose={this.handleClose}
+                            variant={this.state.snackbarVariant}
+                            message={this.state.snackbarMessage}
+                        />
+                        </Snackbar>
                             </div>
                         </div>
                     </div>
@@ -291,6 +418,22 @@ class LoginPage extends Component{
                         style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
                             SIGN OUT 
                         </Button>
+
+                        <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        open={this.state.snackbarOpen}
+                        autoHideDuration={4000}
+                        onClose={this.handleSnackbarClose}
+                        >
+                        <MySnackbarContentWrapper
+                            onClose={this.handleClose}
+                            variant={this.state.snackbarVariant}
+                            message={this.state.snackbarMessage}
+                        />
+                        </Snackbar>
                     </div>
                 </MuiThemeProvider>
             );
