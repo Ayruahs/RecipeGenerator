@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './Login.css';
 
@@ -77,67 +79,72 @@ class LoginPage extends Component{
       this.setState({[event.target.name]: event.target.value});
     };
 
-    onSubmit = event => {
-      event.preventDefault();
-    //   LoginStore.setLoginPageEmail(this.state.email);
-    //   LoginStore.setLoginPagePassword(this.state.password);
-    //   try{
-    //     LoginStore.LoginPageUserLogin().then(() => {
-    //       if(LoginStore.isLoggedIn){
-    //         this.props.history.push('/scopii');
-    //       }
-    //     })
-    //   }catch(e){
-    //     alert(e.message);
-    //   }
-    //   this.setState({
-    //       isLoggedIn: true
-    //   })
-    // };
+    onLogin = event => {
+        event.preventDefault();
 
-    return fetch("/login/" + this.state.email + "&" + this.state.password).then( response => {
-        console.log(response)
-        // return response.json();
-    // }).then( jsonObj => {
-    //     if(jsonObj.count === 0){
-    //         console.log("number of recipes: " + jsonObj.count);    
-    //     }else{
-    //         console.log("number of recipes: " + jsonObj.count);
+        return fetch("/login/" + this.state.email + "&" + this.state.password).then( response => {
+            return response.json();
+            }).then( jsonObj => {
+                if(jsonObj.HTTPCode === 400){
+                    console.log("Error: " + jsonObj.message);    
+                }else if(jsonObj.HTTPCode === 401){
+                    console.log("Error: " + jsonObj.message);    
+                }else{
+                    console.log("Message: " + jsonObj.message);
+                    this.setState({
+                        isLoggedIn: true
+                    });
+                }
+            }).catch( e => {
+                console.log(e);
+            })
+    };
 
-    //         var arr = jsonObj.hits;
-    //         var arr2 = [];
+    onRegister = event => {
+        event.preventDefault();
 
-    //         for(var i=0; i<arr.length; i++){
-    //             arr2.push(arr[i].recipe); 
-    //         }
-
-    //         console.log("1: " + typeof this.state.APIRecipes);
-    //         this.setState({
-    //             open: true,
-    //             APIRecipes: arr2
-    //         })
-    //     }
-    // }).catch( e => {
-    //     console.log(e);
-    // })
-    });
-    }
-
-    onRegister = () => {
-        this.setState({
-            isLoggedIn: true
-        })
+        return fetch("/register/" + this.state.email + "&" + this.state.password).then( response => {
+            return response.json();
+            }).then( jsonObj => {
+                if(jsonObj.HTTPCode === 400){
+                    console.log("Error: " + jsonObj.message);    
+                }else if(jsonObj.HTTPCode === 401){
+                    console.log("Error: " + jsonObj.message);    
+                }else{
+                    console.log("Message: " + jsonObj.message);
+                    this.setState({
+                        isLoggedIn: true
+                    });
+                }
+            }).catch( e => {
+                console.log(e);
+            })
     };
 
     getSaved = () =>{
 
     };
 
-    signOut = () =>{
-        this.setState({
-            isLoggedIn: false
-        })
-    }
+    signOut = event =>{
+        event.preventDefault();
+
+        return fetch("/logout").then( response => {
+            return response.json();
+            }).then( jsonObj => {
+                if(jsonObj.HTTPCode === 400){
+                    console.log("Error: " + jsonObj.message);    
+                }else if(jsonObj.HTTPCode === 401){
+                    console.log("Error: " + jsonObj.message);    
+                }else{
+                    console.log("Message: " + jsonObj.message);
+                    this.setState({
+                        isLoggedIn: false
+                    });
+                }
+            }).catch( e => {
+                console.log(e);
+            })
+    };
 
     render(){
         if(!this.state.isLoggedIn){
@@ -157,7 +164,7 @@ class LoginPage extends Component{
                                 <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
                                 style={this.inputStyle} name="password" type="password" value={this.state.password} placeholder="password" />
 
-                                <Button onClick={this.onSubmit} 
+                                <Button onClick={this.onLogin} 
                                 style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
                                     LOGIN 
                                 </Button>
