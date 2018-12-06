@@ -24,3 +24,6 @@ yarn-error.log*
 
 # APIKeys File
 recipe/src/APIKeys.js
+
+#virtual environment stuff
+venv/*
