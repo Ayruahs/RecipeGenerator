@@ -1,0 +1,27 @@
+<html>
+	<head>
+		{% if title %}
+		<title>{{ title }} - What's In Your Fridge</title>
+		{% else %}
+		<title>Welcome to What's In Your Fridge</title>
+		{% endif %}
+	</head>
+	<body>
+		<div>
+			What's In Your Fridge: 
+			<a href="/index">Home</a>
+			<a href="/login">Login</a>
+		</div>
+		<hr>
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		<ul>
+			{% for message in messages %}
+			<li>{{ message }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% endwith %}
+		{% block content %}{% endblock %}
+	</body>
+</html>
