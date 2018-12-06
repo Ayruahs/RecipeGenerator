@@ -342,7 +342,6 @@ class DownshiftMultiple extends Component {
                         arr2.push(arr[i].recipe); 
                     }
 
-                    console.log("1: " + typeof this.state.APIRecipes);
                     this.setState({
                         open: true,
                         APIRecipes: arr2

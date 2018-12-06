@@ -3,8 +3,14 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './Login.css';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const muiTheme = createMuiTheme({
     overrides: {
@@ -42,7 +48,10 @@ class LoginPage extends Component{
     state={
         email: "",
         password: "",
-        isLoggedIn: false
+        isLoggedIn: false,
+        snackbarOpen: false,
+        savedRecipes: [],
+        gotRecipes: false
     };
 
     inputStyle = {
@@ -85,12 +94,12 @@ class LoginPage extends Component{
         return fetch("/login/" + this.state.email + "&" + this.state.password).then( response => {
             return response.json();
             }).then( jsonObj => {
-                if(jsonObj.HTTPCode === 400){
-                    console.log("Error: " + jsonObj.message);    
-                }else if(jsonObj.HTTPCode === 401){
-                    console.log("Error: " + jsonObj.message);    
+                if(jsonObj.HTTPcode === 400){
+                    console.log("Error1: " + jsonObj.message);    
+                }else if(jsonObj.HTTPcode === 401){
+                    console.log("Error2: " + jsonObj.message);    
                 }else{
-                    console.log("Message: " + jsonObj.message);
+                    console.log("Message3: " + jsonObj.message);
                     this.setState({
                         isLoggedIn: true
                     });
@@ -106,9 +115,9 @@ class LoginPage extends Component{
         return fetch("/register/" + this.state.email + "&" + this.state.password).then( response => {
             return response.json();
             }).then( jsonObj => {
-                if(jsonObj.HTTPCode === 400){
+                if(jsonObj.HTTPcode === 400){
                     console.log("Error: " + jsonObj.message);    
-                }else if(jsonObj.HTTPCode === 401){
+                }else if(jsonObj.HTTPcode === 401){
                     console.log("Error: " + jsonObj.message);    
                 }else{
                     console.log("Message: " + jsonObj.message);
@@ -121,8 +130,16 @@ class LoginPage extends Component{
             })
     };
 
-    getSaved = () =>{
+    handleSnackbarClick = () => {
+        this.setState({ snackbarOpen: true });
+    };
 
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+
+        this.setState({ snackbarOpen: false });
     };
 
     signOut = event =>{
@@ -131,9 +148,9 @@ class LoginPage extends Component{
         return fetch("/logout").then( response => {
             return response.json();
             }).then( jsonObj => {
-                if(jsonObj.HTTPCode === 400){
+                if(jsonObj.HTTPcode === 400){
                     console.log("Error: " + jsonObj.message);    
-                }else if(jsonObj.HTTPCode === 401){
+                }else if(jsonObj.HTTPcode === 401){
                     console.log("Error: " + jsonObj.message);    
                 }else{
                     console.log("Message: " + jsonObj.message);
@@ -141,6 +158,50 @@ class LoginPage extends Component{
                         isLoggedIn: false
                     });
                 }
+            }).catch( e => {
+                console.log(e);
+            })
+    };
+
+    getRecipes = () =>{
+        if(this.state.isLoggedIn){
+            return fetch("/getRecipes").then( response => {
+                return response.json();
+                }).then( jsonObj => {
+                    console.log(jsonObj);
+                    if(jsonObj.HTTPcode === 400)
+                        console.log("Message: " + jsonObj.message);
+                    else{
+                        console.log("RECES: " + jsonObj);
+                        var arr = jsonObj.recipeList;
+    
+                        this.setState({
+                            savedRecipes: arr,
+                            gotRecipes: true
+                        })
+                    }
+                }).catch( e => {
+                    console.log(e);
+                })
+        }
+    }
+
+    openLink(url){
+        var win = window.open(url, '_blank');
+        win.focus();
+    };
+
+    deleteRecipe = (recipe) =>{
+        let request = {
+			headers: {
+				"Accept": 'application/json'
+			}
+		};
+        var recipeUrl = recipe.recipe_url;
+        return fetch("/deleteSavedRecipe/" + recipeUrl, request).then( response => {
+            return response.json();
+            }).then( jsonObj => {
+                console.log("Message: " + jsonObj.message);
             }).catch( e => {
                 console.log(e);
             })
@@ -180,9 +241,52 @@ class LoginPage extends Component{
                 </MuiThemeProvider>
             );
         }else{
+            const classes = {
+                root: {
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-around',
+                  overflow: 'hidden',
+                  backgroundColor: '#EFEFEF',
+                  align: 'center'
+                },
+                gridList: {
+                  width: '40vw',
+                  height: '95vh',
+                },
+                icon: {
+                  color: 'rgba(255, 255, 255, 0.54)',
+                },
+            };
             return(
                 <MuiThemeProvider theme={muiTheme}>
                     <div>
+                    {this.state.gotRecipes &&
+                    <GridList cellHeight={200} className={classes.gridList}>
+                    <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+                        <ListSubheader component="div">Recipes you have saved</ListSubheader>
+                    </GridListTile>
+                    {this.state.savedRecipes.map(recipe => (
+
+                        <GridListTile key={recipe.recipe_name} onClick={() => this.openLink(recipe.recipe_url)}>
+                        <img src={recipe.image_url} alt={recipe.recipe_name} />
+                        <GridListTileBar
+                            title={recipe.recipe_name}
+                            actionIcon={
+                            <IconButton className={classes.icon} onClick={() => this.deleteRecipe(recipe)}>
+                                <ClearIcon />
+                            </IconButton>
+                            }
+                        />
+                        </GridListTile>
+                    ))}
+                    </GridList>
+                    }
+                            
+                        <Button onClick={this.getRecipes} 
+                        style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
+                            GET SAVED RECIPES
+                        </Button>
                         <Button onClick={this.signOut} 
                         style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
                             SIGN OUT 

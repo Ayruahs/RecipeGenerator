@@ -6,8 +6,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-// import tileData from './tileData';
+import AddIcon from '@material-ui/icons/Add';
 
 const styles = theme => ({
     root: {
@@ -32,10 +31,29 @@ class RecipeGridList extends Component {
         tileData: []
     };
 
-    openLink(url){
+    openLink = (url) => {
+        console.log("the url is: " + url);
         var win = window.open(url, '_blank');
-        win.focus();
+        // win.focus();
     };
+
+    saveRecipe = (tile) => {
+        var recipeName = tile.label;
+        var imageUrl = tile.image;
+        var recipeUrl = tile.url;
+        let request = {
+			headers: {
+				"Accept": 'application/json'
+			}
+		};
+        return fetch("/saveRecipe/" + recipeName + "&" + imageUrl + "&" + recipeUrl, request).then( response => {
+            return response.json();
+            }).then( jsonObj => {
+                console.log("Message: " + jsonObj.message);
+            }).catch( e => {
+                console.log(e);
+            })
+    }
 
     render(){
         const { classes } = this.props;
@@ -48,14 +66,14 @@ class RecipeGridList extends Component {
             </GridListTile>
             {this.props.tileData.map(tile => (
 
-                <GridListTile key={tile.label}>
+                <GridListTile key={tile.label} onClick={() => this.openLink(tile.url)}>
                 <img src={tile.image} alt={tile.label} />
                 <GridListTileBar
                     title={tile.label}
                     subtitle={<span>{tile.calories} Calories</span>}
                     actionIcon={
-                    <IconButton className={classes.icon} onClick={() => this.openLink(tile.url)}>
-                        <InfoIcon />
+                    <IconButton className={classes.icon} onClick={() => this.saveRecipe(tile)}>
+                        <AddIcon />
                     </IconButton>
                     }
                 />
