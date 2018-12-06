@@ -67,20 +67,20 @@ def index():
 @app.route('/login/<username>&<password>', methods = ['GET', 'POST'])
 def login(username, password):
     if current_user.is_authenticated:
-        return "Log Out First"
+        return jsonify({"message": "Log Out First", "HTTPcode": 400})
         #return redirect(url_for('index'))
     #form = LoginForm()
     #if form.validate_on_submit():
     user = User.query.filter_by(username=username).first()
     if user is None or not user.check_password(password):
         print("Invalid username or password")
-        return "Invalid Username or Password"
+        return jsonify({"message": "Invalid Username or Password", "HTTPcode": 401})
     #    #flash('Login requested for user {}, remember_me={}'.format(
     #    #    form.username.data, form.remember_me.data))
     #        flash('Invalid username or password')
     #        return redirect(url_for('login'))
     login_user(user, remember=False)
-    return "Logged In"
+    return jsonify({"message": "Logged In", "HTTPcode": 200})
     #    next_page = request.args.get('next')
     #    if not next_page or url_parse(next_page).netloc != '':
     #        next_page = url_for('index')
@@ -92,13 +92,13 @@ def login(username, password):
 def logout():
     logout_user()
     #return redirect(url_for('index'))
-    return "Logged Out"
+    return jsonify({"message": "Logged out", "HTTPcode": 200})
 
 @app.route('/register/<username>&<password>', methods=['GET', 'POST'])
 def register(username, password):
     if current_user.is_authenticated:
         #return redirect(url_for('index'))
-        return "Logout First"
+        return jsonify({"message": "Logout first", "HTTPcode": 400})
     #form = RegistrationForm()
     #if form.validate_on_submit():
     try:
@@ -107,8 +107,8 @@ def register(username, password):
         db.session.add(user)
         db.session.commit()
     except IntegrityError:
-        return "Username Taken"
-    return "Account Created"
+        return jsonify({"message": "Username taken", "HTTPcode": 401})
+    return jsonify({"message": "Account created", "HTTPcode": 200})
     #    flash('Congratulations, you are now a registered user!')
     #    return redirect(url_for('login'))
     #return render_template('register.html', title='Register', form=form)
@@ -123,10 +123,10 @@ def getRecipes():
 def saveRecipe(recipe_name, image_url, recipe_url):
     if current_user.is_authenticated == False:
         return "Login First"
-    return save_recipe(current_user.username, recipe_name, image_url, recipe_url)
+    return jsonify({"message": save_recipe(current_user.username, recipe_name, image_url, recipe_url), "HTTPcode": 200})
 
 @app.route('/deleteSavedRecipe/<recipe_url>')
 def deleteRecipe(recipe_url):
     if current_user.is_authenticated == False:
         return "Login First"
-    return delete_recipe(current_user.username, recipe_url)
+    return jsonify({"message": delete_recipe(current_user.username, recipe_url), "HTTPcode": 200})
