@@ -33,7 +33,7 @@ class RecipeGridList extends Component {
 
     openLink = (url) => {
         console.log("the url is: " + url);
-        var win = window.open(url, '_blank');
+        window.open(url, '_blank');
         // win.focus();
     };
 

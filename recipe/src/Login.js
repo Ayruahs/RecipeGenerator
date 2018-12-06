@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
+// import Snackbar from '@material-ui/core/Snackbar';
+// import SnackbarContent from '@material-ui/core/SnackbarContent';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -212,13 +212,13 @@ class LoginPage extends Component{
             return(
                 <MuiThemeProvider theme={muiTheme}>
 
-                    <div class="RightHalf">
-                        <div class="LoginDiv">
-                            <div class="LogInEmail">
-                            Login with your email
+                    <div className="RightHalf">
+                        <div className="LoginDiv">
+                            <div className="LogInEmail">
+                            Login with your username
                             </div>
 
-                            <div class="InputClass">
+                            <div className="InputClass">
 
                                 <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
                                 style={this.inputStyle} name="email" value={this.state.email} placeholder="username" />
