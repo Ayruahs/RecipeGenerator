@@ -39,7 +39,8 @@ const muiTheme = createMuiTheme({
 class LoginPage extends Component{
     state={
         email: "",
-        password: ""
+        password: "",
+        isLoggedIn: false
     };
 
     inputStyle = {
@@ -89,37 +90,65 @@ class LoginPage extends Component{
     //   }catch(e){
     //     alert(e.message);
     //   }
-      
-      
+      this.setState({
+          isLoggedIn: true
+      })
     };
 
+    getSaved = () =>{
+
+    };
+
+    signOut = () =>{
+        this.setState({
+            isLoggedIn: false
+        })
+    }
+
     render(){
-        return(
-            <MuiThemeProvider theme={muiTheme}>
+        if(!this.state.isLoggedIn){
+            return(
+                <MuiThemeProvider theme={muiTheme}>
 
-                <div class="RightHalf">
-                    <div class="LoginDiv">
-                        <div class="LogInEmail">
-                        Login with your email
-                        </div>
+                    <div class="RightHalf">
+                        <div class="LoginDiv">
+                            <div class="LogInEmail">
+                            Login with your email
+                            </div>
 
-                        <div class="InputClass">
-                            <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
-                            style={this.inputStyle} name="email" value={this.state.email} placeholder="email" />
-                            <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
-                            style={this.inputStyle} name="password" type="password" value={this.state.password} placeholder="password" />
+                            <div class="InputClass">
+                                <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
+                                style={this.inputStyle} name="email" value={this.state.email} placeholder="email" />
+                                <TextField onChange={this.handleChange} InputProps={{disableUnderline: true}} 
+                                style={this.inputStyle} name="password" type="password" value={this.state.password} placeholder="password" />
 
-                            <Button onClick={this.onSubmit} 
-                            style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
-                                LOGIN 
-                            </Button>
+                                <Button onClick={this.onSubmit} 
+                                style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
+                                    LOGIN 
+                                </Button>
+                                <Button onClick={this.onSubmit} 
+                                style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
+                                    REGISTER
+                                </Button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
 
-            </MuiThemeProvider>
-        );
+                </MuiThemeProvider>
+            );
+        }else{
+            return(
+                <MuiThemeProvider theme={muiTheme}>
+                    <div>
+                        <Button onClick={this.signOut} 
+                        style={{alignSelf: "center", height: "50px", width: "280px", marginTop: '10%'}}>
+                            SIGN OUT 
+                        </Button>
+                    </div>
+                </MuiThemeProvider>
+            );
+        }
     }
 }
 
