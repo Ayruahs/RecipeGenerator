@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
 import './App.css';
 import MultipleSearch from './Autocomplete';
+import Login from './Login';
 
 class App extends Component {
 
   render() {
     return (
       <div className="App">
-        <div className="ingredients-container">
-          
+      
+        <div>
           <div className="ingredients-select">
-            
             <div style={{marginTop:'20%', fontSize:'300%'}}>What's in your fridge?</div>
-
-            <MultipleSearch/>
-
+              <MultipleSearch/>
             <div style={{marginTop:'20%', fontSize:'150%'}}>
             Enter the ingredients you have and we'll<br/> tell you what you can make!
             </div>
           </div>
-        
         </div>
 
-        <div className="recipe-container">
+        <div>
           <div className="recipe-display">
-            Profile Info Here
+            <Login/>
           </div>
         </div>
+
       </div>
       
     );

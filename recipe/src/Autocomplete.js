@@ -323,7 +323,7 @@ class DownshiftMultiple extends Component {
         }else{
             let INGREDIENT_STRING = selectedItem.join(" ");
             let API_URL = "https://api.edamam.com/search?q=\"" + INGREDIENT_STRING + "\"&app_id=" + APIKeys.APP_ID + 
-                      "&" + "app_key=" + APIKeys.APP_KEY + "&from=0&to=10";
+                      "&app_key=" + APIKeys.APP_KEY + "&from=0&to=10";
         
             console.log(API_URL);
 
@@ -411,7 +411,7 @@ class DownshiftMultiple extends Component {
           )}
         </Downshift>
 
-        <Button style={{marginTop:"20%"}} variant="contained" raised={true} color="secondary" onClick={this.getRecipes}>
+        <Button style={{marginTop:"20%"}} variant="contained" color="secondary" onClick={this.getRecipes}>
             Search Recipes
         </Button>
 

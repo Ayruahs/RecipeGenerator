@@ -15,11 +15,12 @@ const styles = theme => ({
       flexWrap: 'wrap',
       justifyContent: 'space-around',
       overflow: 'hidden',
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: '#EFEFEF',
+      align: 'center'
     },
     gridList: {
-      width: 500,
-      height: 450,
+      width: '40vw',
+      height: '95vh',
     },
     icon: {
       color: 'rgba(255, 255, 255, 0.54)',
@@ -29,14 +30,19 @@ const styles = theme => ({
 class RecipeGridList extends Component {
     state = {
         tileData: []
-    }
+    };
+
+    openLink(url){
+        var win = window.open(url, '_blank');
+        win.focus();
+    };
 
     render(){
         const { classes } = this.props;
        
         return (
         <div className={classes.root}>
-            <GridList cellHeight={180} className={classes.gridList}>
+            <GridList cellHeight={200} className={classes.gridList}>
             <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                 <ListSubheader component="div">Recipes you can make</ListSubheader>
             </GridListTile>
@@ -46,9 +52,9 @@ class RecipeGridList extends Component {
                 <img src={tile.image} alt={tile.label} />
                 <GridListTileBar
                     title={tile.label}
-                    // subtitle={<span>by: {tile.author}</span>}
+                    subtitle={<span>{tile.calories} Calories</span>}
                     actionIcon={
-                    <IconButton className={classes.icon}>
+                    <IconButton className={classes.icon} onClick={() => this.openLink(tile.url)}>
                         <InfoIcon />
                     </IconButton>
                     }
