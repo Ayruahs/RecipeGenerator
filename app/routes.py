@@ -10,6 +10,7 @@ def get_saved_recipes(user):
     u = User.query.filter_by(username=user).first()
     recipes = u.recipes.all()
     array = {}
+    array["HTTPcode"] = 200
     array['username'] = user
     array['recipeList'] = []
     for recipe in recipes:
@@ -119,13 +120,14 @@ def getRecipes():
         return jsonify({"message": "Login First", "HTTPcode": 400})
     return jsonify(get_saved_recipes(current_user.username))
 
-@app.route('/saveRecipe/<recipe_name>&<image_url>&<recipe_url>')
+@app.route('/saveRecipe/<recipe_name>&<path:image_url>&<path:recipe_url>')
 def saveRecipe(recipe_name, image_url, recipe_url):
+    print("sdsdsdsd:", recipe_name, recipe_url, image_url)
     if current_user.is_authenticated == False:
         return jsonify({"message": "Login First", "HTTPcode": 400})
     return jsonify({"message": save_recipe(current_user.username, recipe_name, image_url, recipe_url), "HTTPcode": 200})
 
-@app.route('/deleteSavedRecipe/<recipe_url>')
+@app.route('/deleteSavedRecipe/<path:recipe_url>')
 def deleteRecipe(recipe_url):
     if current_user.is_authenticated == False:
         return jsonify({"message": "Login First", "HTTPcode": 400})
