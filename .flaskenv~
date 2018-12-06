@@ -1,0 +1,2 @@
+FLASK_APP=recipeServer.py
+DATABASE_URL=mysql+pymysql://mill2012:TEARv2.0@mydb.ics.purdue.edu/mill2012
