@@ -116,17 +116,17 @@ def register(username, password):
 @app.route('/getRecipes')
 def getRecipes():
     if current_user.is_authenticated == False:
-        return "Login First"
+        return jsonify({"message": "Login First", "HTTPcode": 400})
     return jsonify(get_saved_recipes(current_user.username))
 
 @app.route('/saveRecipe/<recipe_name>&<image_url>&<recipe_url>')
 def saveRecipe(recipe_name, image_url, recipe_url):
     if current_user.is_authenticated == False:
-        return "Login First"
+        return jsonify({"message": "Login First", "HTTPcode": 400})
     return jsonify({"message": save_recipe(current_user.username, recipe_name, image_url, recipe_url), "HTTPcode": 200})
 
 @app.route('/deleteSavedRecipe/<recipe_url>')
 def deleteRecipe(recipe_url):
     if current_user.is_authenticated == False:
-        return "Login First"
+        return jsonify({"message": "Login First", "HTTPcode": 400})
     return jsonify({"message": delete_recipe(current_user.username, recipe_url), "HTTPcode": 200})
